@@ -50,7 +50,7 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick }) => {
 
   return (
     <Card 
-      className="crypto-card border border-gray-800 overflow-hidden hover:border-gray-600 cursor-pointer relative"
+      className="crypto-card border border-gray-800 overflow-hidden hover:border-gray-600 cursor-pointer transition-all duration-300 hover:shadow-md"
       onClick={() => onClick(crypto)}
     >
       <CardHeader className="p-4 pb-2 flex flex-row justify-between items-center">

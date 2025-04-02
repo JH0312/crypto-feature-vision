@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { ChartContainer } from '@/components/ui/chart';
 import {
   LineChart,
   Line,
@@ -59,13 +58,22 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
       lastPriceRef.current = selectedCrypto.price;
       setPriceChange(0);
     }
-  }, [selectedCrypto, priceHistory.length]);
+  }, [selectedCrypto]);
   
-  // Update chart with new price data
+  // Update chart with new price data when real-time is enabled
   useEffect(() => {
-    if (!selectedCrypto || !isRealTimeEnabled) return;
+    if (!selectedCrypto || !isRealTimeEnabled) {
+      return;
+    }
     
     const updateInterval = setInterval(() => {
+      const time = new Date();
+      const timeString = time.toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+      });
+      
       setPriceHistory(prevData => {
         // Remove first item if we're at max capacity
         const newData = [...prevData];
@@ -73,52 +81,69 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
           newData.shift();
         }
         
-        // Add new price point
-        const time = new Date();
+        // Add new price point with the current price
         newData.push({
-          time: time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+          time: timeString,
           price: selectedCrypto.price
         });
         
-        // Calculate change
-        if (lastPriceRef.current !== null) {
-          const change = selectedCrypto.price - lastPriceRef.current;
-          setPriceChange(change);
-        }
-        
-        lastPriceRef.current = selectedCrypto.price;
         return newData;
       });
+      
+      // Calculate price change
+      if (lastPriceRef.current !== null) {
+        const change = selectedCrypto.price - lastPriceRef.current;
+        setPriceChange(change);
+      }
+      
+      lastPriceRef.current = selectedCrypto.price;
     }, 1000);
     
     return () => clearInterval(updateInterval);
   }, [selectedCrypto, isRealTimeEnabled]);
   
-  // Handle price updates from props
+  // Update immediately when the selected crypto price changes
   useEffect(() => {
     if (selectedCrypto && lastPriceRef.current !== null && selectedCrypto.price !== lastPriceRef.current) {
-      // Update last point or add new point if real-time is enabled
-      if (isRealTimeEnabled && priceHistory.length > 0) {
-        setPriceHistory(prevData => {
-          const newData = [...prevData];
-          // Update the last point with the new price
-          if (newData.length > 0) {
-            const lastIndex = newData.length - 1;
-            newData[lastIndex] = {
-              ...newData[lastIndex],
-              price: selectedCrypto.price
-            };
-          }
-          return newData;
-        });
+      const time = new Date();
+      const timeString = time.toLocaleTimeString([], { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+      });
+      
+      setPriceHistory(prevData => {
+        const newData = [...prevData];
         
-        // Calculate change
-        const change = selectedCrypto.price - lastPriceRef.current;
-        setPriceChange(change);
-        lastPriceRef.current = selectedCrypto.price;
-      }
+        // In real-time mode, add a new point
+        if (isRealTimeEnabled) {
+          if (newData.length >= MAX_DATA_POINTS) {
+            newData.shift();
+          }
+          
+          newData.push({
+            time: timeString,
+            price: selectedCrypto.price
+          });
+        } 
+        // In non-real-time mode, just update the last point
+        else if (newData.length > 0) {
+          const lastIndex = newData.length - 1;
+          newData[lastIndex] = {
+            ...newData[lastIndex],
+            price: selectedCrypto.price
+          };
+        }
+        
+        return newData;
+      });
+      
+      // Calculate change
+      const change = selectedCrypto.price - lastPriceRef.current;
+      setPriceChange(change);
+      lastPriceRef.current = selectedCrypto.price;
     }
-  }, [selectedCrypto?.price, isRealTimeEnabled, priceHistory.length]);
+  }, [selectedCrypto?.price, isRealTimeEnabled]);
   
   const domain = React.useMemo(() => {
     if (!priceHistory.length) return [0, 1];
@@ -199,7 +224,7 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
                 stroke="#818cf8" 
                 strokeWidth={2}
                 dot={false}
-                isAnimationActive={false} // Disable animation for better performance
+                isAnimationActive={false} // Disable animation for better performance with real-time updates
                 connectNulls
               />
             </LineChart>

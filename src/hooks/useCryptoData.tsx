@@ -34,20 +34,19 @@ export const useCryptoData = () => {
         const priceDiff = newPrice - crypto.price;
         const newChange24h = crypto.change24h + (priceDiff / crypto.price) * 20; // Amplify for demo
         
-        // Also update in selected crypto if it's the current one
-        if (selectedCrypto && selectedCrypto.id === crypto.id) {
-          setSelectedCrypto({
-            ...selectedCrypto,
-            price: newPrice,
-            change24h: newChange24h
-          });
-        }
-        
-        return {
+        // Create updated crypto object
+        const updatedCrypto = {
           ...crypto,
           price: newPrice,
           change24h: newChange24h
         };
+        
+        // Also update in selected crypto if it's the current one
+        if (selectedCrypto && selectedCrypto.id === crypto.id) {
+          setSelectedCrypto(updatedCrypto);
+        }
+        
+        return updatedCrypto;
       })
     );
   };
@@ -105,14 +104,18 @@ export const useCryptoData = () => {
       updateIntervalRef.current = window.setInterval(() => {
         updateCryptoPrices();
       }, 1000);
+      
+      console.log("Real-time updates enabled, interval set");
     } else if (updateIntervalRef.current !== null) {
       clearInterval(updateIntervalRef.current);
       updateIntervalRef.current = null;
+      console.log("Real-time updates disabled, interval cleared");
     }
     
     return () => {
       if (updateIntervalRef.current !== null) {
         clearInterval(updateIntervalRef.current);
+        console.log("Cleaning up interval on unmount");
       }
     };
   }, [isRealTimeEnabled, data.length]);
