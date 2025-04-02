@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+        crypto: {
+          blue: '#0A2463',
+          teal: '#3E92CC',
+          purple: '#8B5CF6',
+          green: '#4BB543',
+          red: '#FF3B30',
+          gray: '#2D3748',
+          'chart-bg': '#1A1F2C'
+        }
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -84,12 +94,21 @@ export default {
 					to: {
 						height: '0'
 					}
-				}
+				},
+        'pulse-opacity': {
+          '0%, 100%': { opacity: '1' },
+          '50%': { opacity: '0.7' }
+        }
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
-			}
+				'accordion-up': 'accordion-up 0.2s ease-out',
+        'pulse-slow': 'pulse-opacity 3s ease-in-out infinite'
+			},
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'crypto-gradient': 'linear-gradient(to right, #0A2463, #8B5CF6)',
+      }
 		}
 	},
 	plugins: [require("tailwindcss-animate")],
