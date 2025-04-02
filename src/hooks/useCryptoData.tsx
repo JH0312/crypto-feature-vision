@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { cryptoData, CryptoData } from "@/data/cryptoData";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -14,7 +14,59 @@ export const useCryptoData = () => {
     direction: "asc" | "desc"
   }>({ field: "marketCap", direction: "desc" });
   
+  // Add real-time updates support
+  const [isRealTimeEnabled, setIsRealTimeEnabled] = useState<boolean>(false);
+  const updateIntervalRef = useRef<number | null>(null);
+  
   const { toast } = useToast();
+
+  // Function to simulate real-time price changes
+  const simulatePriceChange = (currentPrice: number): number => {
+    const changePercent = (Math.random() * 2 - 1) * 0.5; // Random change between -0.5% and +0.5%
+    return currentPrice * (1 + changePercent / 100);
+  };
+
+  // Function to update crypto data with new prices
+  const updateCryptoPrices = () => {
+    setData(prevData => 
+      prevData.map(crypto => {
+        const newPrice = simulatePriceChange(crypto.price);
+        const priceDiff = newPrice - crypto.price;
+        const newChange24h = crypto.change24h + (priceDiff / crypto.price) * 20; // Amplify for demo
+        
+        // Also update in selected crypto if it's the current one
+        if (selectedCrypto && selectedCrypto.id === crypto.id) {
+          setSelectedCrypto({
+            ...selectedCrypto,
+            price: newPrice,
+            change24h: newChange24h
+          });
+        }
+        
+        return {
+          ...crypto,
+          price: newPrice,
+          change24h: newChange24h
+        };
+      })
+    );
+  };
+
+  // Toggle real-time updates
+  const toggleRealTimeUpdates = () => {
+    const newState = !isRealTimeEnabled;
+    setIsRealTimeEnabled(newState);
+    
+    if (newState) {
+      toast({
+        description: "Real-time updates enabled",
+      });
+    } else {
+      toast({
+        description: "Real-time updates disabled",
+      });
+    }
+  };
 
   useEffect(() => {
     // Simulate fetching data with a delay
@@ -45,6 +97,25 @@ export const useCryptoData = () => {
 
     fetchData();
   }, [toast]);
+
+  // Set up and clean up real-time interval
+  useEffect(() => {
+    if (isRealTimeEnabled && data.length > 0) {
+      // Update every second
+      updateIntervalRef.current = window.setInterval(() => {
+        updateCryptoPrices();
+      }, 1000);
+    } else if (updateIntervalRef.current !== null) {
+      clearInterval(updateIntervalRef.current);
+      updateIntervalRef.current = null;
+    }
+    
+    return () => {
+      if (updateIntervalRef.current !== null) {
+        clearInterval(updateIntervalRef.current);
+      }
+    };
+  }, [isRealTimeEnabled, data.length]);
 
   const filteredAndSortedData = useMemo(() => {
     let result = [...data];
@@ -101,6 +172,8 @@ export const useCryptoData = () => {
     filterValue,
     updateFilter,
     sortBy,
-    updateSort
+    updateSort,
+    isRealTimeEnabled,
+    toggleRealTimeUpdates
   };
 };

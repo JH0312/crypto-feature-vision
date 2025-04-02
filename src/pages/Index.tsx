@@ -7,10 +7,20 @@ import Header from '@/components/Header';
 import CryptoCard from '@/components/CryptoCard';
 import FeatureAnalysisChart from '@/components/FeatureAnalysisChart';
 import MalwareDetectionPanel from '@/components/MalwareDetectionPanel';
+import RealTimeChart from '@/components/RealTimeChart';
 import { useCryptoData } from '@/hooks/useCryptoData';
 
 const Index = () => {
-  const { data, loading, error, selectedCrypto, selectCrypto, clearSelectedCrypto } = useCryptoData();
+  const { 
+    data, 
+    loading, 
+    error, 
+    selectedCrypto, 
+    selectCrypto, 
+    clearSelectedCrypto,
+    isRealTimeEnabled,
+    toggleRealTimeUpdates
+  } = useCryptoData();
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -43,9 +53,18 @@ const Index = () => {
             </div>
 
             {selectedCrypto ? (
-              <SelectedCryptoView selectedCrypto={selectedCrypto} />
+              <SelectedCryptoView 
+                selectedCrypto={selectedCrypto} 
+                isRealTimeEnabled={isRealTimeEnabled}
+                toggleRealTimeUpdates={toggleRealTimeUpdates}
+              />
             ) : (
-              <DashboardView data={data} onSelectCrypto={selectCrypto} />
+              <DashboardView 
+                data={data} 
+                onSelectCrypto={selectCrypto} 
+                isRealTimeEnabled={isRealTimeEnabled}
+                toggleRealTimeUpdates={toggleRealTimeUpdates}
+              />
             )}
           </>
         )}
@@ -87,10 +106,14 @@ const ErrorState = ({ message }: { message: string }) => (
 
 const DashboardView = ({ 
   data, 
-  onSelectCrypto 
+  onSelectCrypto,
+  isRealTimeEnabled,
+  toggleRealTimeUpdates
 }: { 
   data: any[]; 
-  onSelectCrypto: (crypto: any) => void; 
+  onSelectCrypto: (crypto: any) => void;
+  isRealTimeEnabled: boolean;
+  toggleRealTimeUpdates: () => void;
 }) => (
   <div className="space-y-8">
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -104,13 +127,29 @@ const DashboardView = ({
     </div>
     
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-      <FeatureAnalysisChart />
+      <RealTimeChart 
+        selectedCrypto={data[0] || null} 
+        isRealTimeEnabled={isRealTimeEnabled}
+        onToggleRealTime={toggleRealTimeUpdates}
+      />
       <MalwareDetectionPanel selectedCrypto={null} />
+    </div>
+    
+    <div className="grid grid-cols-1 gap-6">
+      <FeatureAnalysisChart />
     </div>
   </div>
 );
 
-const SelectedCryptoView = ({ selectedCrypto }: { selectedCrypto: any }) => (
+const SelectedCryptoView = ({ 
+  selectedCrypto,
+  isRealTimeEnabled,
+  toggleRealTimeUpdates
+}: { 
+  selectedCrypto: any;
+  isRealTimeEnabled: boolean;
+  toggleRealTimeUpdates: () => void;
+}) => (
   <div className="space-y-6">
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
       <div className="md:col-span-1">
@@ -123,6 +162,12 @@ const SelectedCryptoView = ({ selectedCrypto }: { selectedCrypto: any }) => (
         <MalwareDetectionPanel selectedCrypto={selectedCrypto} />
       </div>
     </div>
+    
+    <RealTimeChart 
+      selectedCrypto={selectedCrypto} 
+      isRealTimeEnabled={isRealTimeEnabled}
+      onToggleRealTime={toggleRealTimeUpdates}
+    />
     
     <FeatureAnalysisChart />
     
