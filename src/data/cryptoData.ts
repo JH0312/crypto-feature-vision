@@ -7,7 +7,11 @@ import {
   Search, 
   BarChart3, 
   PieChart, 
-  Network 
+  Network,
+  Lock,
+  Code,
+  CloudOff,
+  Database
 } from "lucide-react";
 
 export interface CryptoData {
@@ -250,6 +254,227 @@ export const cryptoData: CryptoData[] = [
         status: "warning",
         description: "Risk associated with regulatory actions",
         icon: AlertTriangle
+      }
+    ]
+  },
+  // Additional cryptocurrencies
+  {
+    id: "binancecoin",
+    name: "Binance Coin",
+    symbol: "BNB",
+    price: 352.21,
+    change24h: 1.45,
+    marketCap: 58923456789,
+    volume24h: 2457834901,
+    malwareRisk: 17,
+    riskFeatures: [
+      {
+        id: "centralization",
+        name: "Centralization Risk",
+        value: 68,
+        status: "warning",
+        description: "Risk associated with centralized control",
+        icon: Database
+      },
+      {
+        id: "transaction-volume",
+        name: "Transaction Volume",
+        value: 76,
+        status: "normal",
+        description: "Unusual transaction volumes or patterns",
+        icon: BarChart3
+      },
+      {
+        id: "dependency-risk",
+        name: "Exchange Dependency",
+        value: 59,
+        status: "warning",
+        description: "Risk associated with dependency on Binance exchange",
+        icon: AlertTriangle
+      },
+      {
+        id: "security-vulnerabilities",
+        name: "Security Vulnerabilities",
+        value: 22,
+        status: "normal",
+        description: "Known security issues in the blockchain",
+        icon: ShieldCheck
+      }
+    ]
+  },
+  {
+    id: "polkadot",
+    name: "Polkadot",
+    symbol: "DOT",
+    price: 7.89,
+    change24h: 6.72,
+    marketCap: 9654321098,
+    volume24h: 765432109,
+    malwareRisk: 14,
+    riskFeatures: [
+      {
+        id: "network-anomalies",
+        name: "Network Anomalies",
+        value: 17,
+        status: "normal",
+        description: "Network behavior patterns that deviate from expected behavior",
+        icon: Network
+      },
+      {
+        id: "parachain-risk",
+        name: "Parachain Risk",
+        value: 35,
+        status: "warning",
+        description: "Risk associated with parachain connections",
+        icon: Code
+      },
+      {
+        id: "governance-risk",
+        name: "Governance Risk",
+        value: 29,
+        status: "warning",
+        description: "Risk associated with governance decisions",
+        icon: Lock
+      },
+      {
+        id: "security-vulnerabilities",
+        name: "Security Vulnerabilities",
+        value: 15,
+        status: "normal",
+        description: "Known security issues in the blockchain",
+        icon: ShieldCheck
+      }
+    ]
+  },
+  {
+    id: "avalanche",
+    name: "Avalanche",
+    symbol: "AVAX",
+    price: 35.67,
+    change24h: -2.34,
+    marketCap: 12345678901,
+    volume24h: 987654321,
+    malwareRisk: 19,
+    riskFeatures: [
+      {
+        id: "network-anomalies",
+        name: "Network Anomalies",
+        value: 23,
+        status: "warning",
+        description: "Network behavior patterns that deviate from expected behavior",
+        icon: Network
+      },
+      {
+        id: "consensus-vulnerability",
+        name: "Consensus Vulnerability",
+        value: 18,
+        status: "normal",
+        description: "Vulnerabilities in the consensus mechanism",
+        icon: AlertTriangle
+      },
+      {
+        id: "transaction-volume",
+        name: "Transaction Volume",
+        value: 67,
+        status: "normal",
+        description: "Unusual transaction volumes or patterns",
+        icon: BarChart3
+      },
+      {
+        id: "security-vulnerabilities",
+        name: "Security Vulnerabilities",
+        value: 31,
+        status: "warning",
+        description: "Known security issues in the blockchain",
+        icon: ShieldCheck
+      }
+    ]
+  },
+  {
+    id: "chainlink",
+    name: "Chainlink",
+    symbol: "LINK",
+    price: 15.34,
+    change24h: 4.56,
+    marketCap: 7659432109,
+    volume24h: 543219876,
+    malwareRisk: 16,
+    riskFeatures: [
+      {
+        id: "oracle-manipulation",
+        name: "Oracle Manipulation",
+        value: 25,
+        status: "warning",
+        description: "Risk of oracle manipulation",
+        icon: AlertTriangle
+      },
+      {
+        id: "data-availability",
+        name: "Data Availability",
+        value: 12,
+        status: "normal",
+        description: "Issues with data availability",
+        icon: CloudOff
+      },
+      {
+        id: "network-congestion",
+        name: "Network Congestion",
+        value: 33,
+        status: "warning",
+        description: "Congestion in the network affecting oracle updates",
+        icon: Network
+      },
+      {
+        id: "dependency-risk",
+        name: "Project Dependencies",
+        value: 28,
+        status: "warning",
+        description: "Risk associated with projects depending on Chainlink",
+        icon: Code
+      }
+    ]
+  },
+  {
+    id: "polygon",
+    name: "Polygon",
+    symbol: "MATIC",
+    price: 0.87,
+    change24h: 3.21,
+    marketCap: 8765432109,
+    volume24h: 654321098,
+    malwareRisk: 15,
+    riskFeatures: [
+      {
+        id: "network-anomalies",
+        name: "Network Anomalies",
+        value: 18,
+        status: "normal",
+        description: "Network behavior patterns that deviate from expected behavior",
+        icon: Network
+      },
+      {
+        id: "layer2-risks",
+        name: "Layer 2 Risks",
+        value: 27,
+        status: "warning",
+        description: "Risks associated with layer 2 scaling",
+        icon: AlertTriangle
+      },
+      {
+        id: "bridge-vulnerability",
+        name: "Bridge Vulnerability",
+        value: 42,
+        status: "warning",
+        description: "Vulnerabilities in cross-chain bridges",
+        icon: Lock
+      },
+      {
+        id: "security-vulnerabilities",
+        name: "Security Vulnerabilities",
+        value: 20,
+        status: "normal",
+        description: "Known security issues in the blockchain",
+        icon: ShieldCheck
       }
     ]
   }
