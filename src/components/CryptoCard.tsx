@@ -39,7 +39,9 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick }) => {
       
       // Remove class after animation completes
       setTimeout(() => {
-        priceRef.current?.classList.remove(className);
+        if (priceRef.current) {
+          priceRef.current.classList.remove(className);
+        }
       }, 1000);
       
       lastPriceRef.current = crypto.price;
@@ -104,22 +106,24 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick }) => {
       </CardContent>
       
       {/* Price change indicator overlay */}
-      <style jsx>{`
-        @keyframes flash-green {
-          0%, 100% { background-color: transparent; }
-          50% { background-color: rgba(52, 211, 153, 0.15); }
-        }
-        @keyframes flash-red {
-          0%, 100% { background-color: transparent; }
-          50% { background-color: rgba(239, 68, 68, 0.15); }
-        }
-        .flash-green {
-          animation: flash-green 1s ease;
-        }
-        .flash-red {
-          animation: flash-red 1s ease;
-        }
-      `}</style>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          @keyframes flash-green {
+            0%, 100% { background-color: transparent; }
+            50% { background-color: rgba(52, 211, 153, 0.15); }
+          }
+          @keyframes flash-red {
+            0%, 100% { background-color: transparent; }
+            50% { background-color: rgba(239, 68, 68, 0.15); }
+          }
+          .flash-green {
+            animation: flash-green 1s ease;
+          }
+          .flash-red {
+            animation: flash-red 1s ease;
+          }
+        `
+      }} />
     </Card>
   );
 };

@@ -3,16 +3,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { Label } from '@/components/ui/label';
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { ChartContainer } from '@/components/ui/chart';
 import {
   LineChart,
   Line,
   XAxis,
   YAxis,
   CartesianGrid,
-  ResponsiveContainer,
   Tooltip,
-  Legend
+  ResponsiveContainer
 } from 'recharts';
 import { TrendingUp, TrendingDown } from 'lucide-react';
 import { CryptoData } from '@/data/cryptoData';
@@ -42,7 +41,7 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
   
   // Reset chart data when crypto changes
   useEffect(() => {
-    if (selectedCrypto && cryptoNameRef.current !== selectedCrypto.name) {
+    if (selectedCrypto && (cryptoNameRef.current !== selectedCrypto.name || priceHistory.length === 0)) {
       cryptoNameRef.current = selectedCrypto.name;
       
       // Initialize with current price
@@ -60,7 +59,7 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
       lastPriceRef.current = selectedCrypto.price;
       setPriceChange(0);
     }
-  }, [selectedCrypto]);
+  }, [selectedCrypto, priceHistory.length]);
   
   // Update chart with new price data
   useEffect(() => {
@@ -94,6 +93,32 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
     
     return () => clearInterval(updateInterval);
   }, [selectedCrypto, isRealTimeEnabled]);
+  
+  // Handle price updates from props
+  useEffect(() => {
+    if (selectedCrypto && lastPriceRef.current !== null && selectedCrypto.price !== lastPriceRef.current) {
+      // Update last point or add new point if real-time is enabled
+      if (isRealTimeEnabled && priceHistory.length > 0) {
+        setPriceHistory(prevData => {
+          const newData = [...prevData];
+          // Update the last point with the new price
+          if (newData.length > 0) {
+            const lastIndex = newData.length - 1;
+            newData[lastIndex] = {
+              ...newData[lastIndex],
+              price: selectedCrypto.price
+            };
+          }
+          return newData;
+        });
+        
+        // Calculate change
+        const change = selectedCrypto.price - lastPriceRef.current;
+        setPriceChange(change);
+        lastPriceRef.current = selectedCrypto.price;
+      }
+    }
+  }, [selectedCrypto?.price, isRealTimeEnabled, priceHistory.length]);
   
   const domain = React.useMemo(() => {
     if (!priceHistory.length) return [0, 1];
@@ -145,25 +170,8 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
           </div>
         </div>
         
-        <div className="h-[350px]">
-          <ChartContainer 
-            config={{
-              line: { 
-                theme: { 
-                  light: '#6366f1', 
-                  dark: '#818cf8' 
-                } 
-              },
-              area: {
-                theme: {
-                  light: 'rgba(99, 102, 241, 0.3)',
-                  dark: 'rgba(129, 140, 248, 0.3)'
-                }
-              },
-              tooltip: {},
-              cursor: {}
-            }}
-          >
+        <div className="h-[350px] w-full">
+          <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={priceHistory}
               margin={{ top: 10, right: 30, left: 20, bottom: 5 }}
@@ -181,20 +189,9 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
                 width={80}
               />
               <Tooltip
-                content={({ active, payload }) => {
-                  if (active && payload && payload.length) {
-                    return (
-                      <ChartTooltipContent
-                        className="bg-gray-900 border-gray-800"
-                        indicator="line"
-                        formatter={(value) => (
-                          <span>${Number(value).toFixed(2)}</span>
-                        )}
-                      />
-                    );
-                  }
-                  return null;
-                }}
+                contentStyle={{ backgroundColor: '#1F2937', borderColor: '#374151', color: '#E5E7EB' }}
+                formatter={(value) => [`$${Number(value).toFixed(2)}`, 'Price']}
+                labelFormatter={(label) => `Time: ${label}`}
               />
               <Line 
                 type="monotone" 
@@ -206,7 +203,7 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
                 connectNulls
               />
             </LineChart>
-          </ChartContainer>
+          </ResponsiveContainer>
         </div>
         
         <div className="mt-4 text-sm text-gray-400">
