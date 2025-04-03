@@ -1,8 +1,8 @@
 
-import React, { useState } from 'react';
-import { Search, X } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, X, Command } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { Input } from '@/components/input';
 import NotificationCenter from './NotificationCenter';
 import SettingsPanel from './SettingsPanel';
 import { LoginButton, RegisterButton } from './AuthForms';
@@ -10,6 +10,8 @@ import { useAuth } from '@/hooks/useAuth';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { useNavigate } from 'react-router-dom';
 import { useCryptoData } from '@/hooks/useCryptoData';
+import { useToast } from '@/hooks/use-toast';
+import { useHotkeys } from '@/hooks/useHotkeys';
 import {
   CommandDialog,
   CommandEmpty,
@@ -25,6 +27,7 @@ const Header = () => {
   const { allData, selectCrypto, updateFilter } = useCryptoData();
   const [commandOpen, setCommandOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const { toast } = useToast();
 
   // Function to get user initials for avatar
   const getUserInitials = () => {
@@ -36,6 +39,19 @@ const Header = () => {
       .toUpperCase()
       .substring(0, 2);
   };
+
+  // Setup keyboard shortcuts
+  useEffect(() => {
+    const down = (e: KeyboardEvent) => {
+      if (e.key === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        setCommandOpen((open) => !open);
+      }
+    };
+    
+    document.addEventListener('keydown', down);
+    return () => document.removeEventListener('keydown', down);
+  }, []);
 
   // Handle command menu open
   const handleCommandOpen = () => {
@@ -52,6 +68,10 @@ const Header = () => {
     selectCrypto(crypto);
     setCommandOpen(false);
     setSearchQuery('');
+    
+    toast({
+      description: `${crypto.name} (${crypto.symbol}) selected for analysis`,
+    });
   };
 
   // Handle search input change in the header
@@ -68,11 +88,11 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full bg-gradient-to-r from-crypto-blue to-crypto-purple p-4 border-b border-gray-800">
+    <header className="w-full bg-gradient-to-r from-crypto-blue to-crypto-purple p-4 border-b border-gray-800 shadow-lg">
       <div className="container flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <div 
-            className="font-bold text-xl md:text-2xl text-white cursor-pointer" 
+            className="font-bold text-xl md:text-2xl text-white cursor-pointer hover:text-opacity-80 transition-all" 
             onClick={() => navigate('/')}
           >
             RFSA Crypto Analyzer
@@ -80,28 +100,36 @@ const Header = () => {
         </div>
         
         <div className="hidden md:flex items-center relative max-w-md w-full mx-4">
-          <Search 
-            className="absolute left-3 h-4 w-4 text-gray-400"
-            onClick={handleCommandOpen}
-          />
           <Input 
-            placeholder="Search cryptocurrencies, features..." 
-            className="pl-10 bg-gray-800 border-gray-700 text-white pr-8"
+            placeholder="Search cryptocurrencies or press ⌘K..." 
+            className="bg-gray-800 border-gray-700 text-white"
             value={searchQuery}
             onChange={handleSearchInputChange}
             onClick={handleCommandOpen}
+            icon={<Search className="h-4 w-4" />}
+            suffix={searchQuery ? (
+              <X 
+                className="h-4 w-4 cursor-pointer hover:text-white transition-colors" 
+                onClick={handleClearSearch}
+              />
+            ) : (
+              <div className="flex items-center space-x-1 text-xs bg-gray-700 px-1.5 py-0.5 rounded text-gray-300">
+                <Command className="h-3 w-3" />
+                <span>K</span>
+              </div>
+            )}
           />
-          {searchQuery && (
-            <button 
-              className="absolute right-3 p-1"
-              onClick={handleClearSearch}
-            >
-              <X className="h-4 w-4 text-gray-400" />
-            </button>
-          )}
         </div>
         
         <div className="flex items-center space-x-3">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="text-white hover:bg-white/10"
+            onClick={handleCommandOpen}
+          >
+            <Search className="h-5 w-5 md:hidden" />
+          </Button>
           <NotificationCenter />
           <SettingsPanel />
           

@@ -1,13 +1,15 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ArrowUp, ArrowDown, AlertTriangle, ShieldCheck } from 'lucide-react';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { CryptoData } from '@/data/cryptoData';
 import { Progress } from '@/components/ui/progress';
+import { cn } from '@/lib/utils';
 
 interface CryptoCardProps {
   crypto: CryptoData;
   onClick: (crypto: CryptoData) => void;
+  highlight?: boolean;
 }
 
 const formatNumber = (num: number): string => {
@@ -18,7 +20,7 @@ const formatNumber = (num: number): string => {
   return num.toFixed(2);
 };
 
-const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick }) => {
+const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick, highlight = false }) => {
   const isPositive = crypto.change24h >= 0;
   const riskColor = crypto.malwareRisk > 20 
     ? "bg-crypto-red" 
@@ -29,6 +31,7 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick }) => {
   const lastPriceRef = useRef<number>(crypto.price);
   const priceRef = useRef<HTMLSpanElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
+  const [isHighlighted, setIsHighlighted] = useState(highlight);
   
   // Flash animation when price changes
   useEffect(() => {
@@ -49,16 +52,37 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick }) => {
     }
   }, [crypto.price]);
 
+  // Handle highlight effect (for search results)
+  useEffect(() => {
+    setIsHighlighted(highlight);
+    
+    if (highlight && cardRef.current) {
+      cardRef.current.classList.add('highlight-card');
+      
+      const timeout = setTimeout(() => {
+        if (cardRef.current) {
+          cardRef.current.classList.remove('highlight-card');
+          setIsHighlighted(false);
+        }
+      }, 2000);
+      
+      return () => clearTimeout(timeout);
+    }
+  }, [highlight]);
+
   return (
     <Card 
       ref={cardRef}
-      className="crypto-card border border-gray-800 overflow-hidden hover:border-gray-600 cursor-pointer transition-all duration-300 hover:shadow-md"
+      className={cn(
+        "crypto-card border border-gray-800 overflow-hidden hover:border-gray-600 cursor-pointer transition-all duration-300 hover:shadow-md",
+        isHighlighted && "border-crypto-purple border-2"
+      )}
       onClick={() => onClick(crypto)}
     >
       <CardHeader className="p-4 pb-2 flex flex-row justify-between items-center">
         <div className="flex items-center space-x-2">
           <div className="rounded-full bg-gradient-to-br from-crypto-blue to-crypto-purple p-1 h-8 w-8 flex items-center justify-center">
-            <span className="text-xs font-bold text-white">{crypto.symbol}</span>
+            <span className="text-xs font-bold text-white">{crypto.symbol.substring(0, 3)}</span>
           </div>
           <div>
             <h3 className="font-semibold text-lg">{crypto.name}</h3>
@@ -123,6 +147,13 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick }) => {
           }
           .flash-red {
             animation: flash-red 1s ease;
+          }
+          @keyframes highlight-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0); }
+            50% { box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.4); }
+          }
+          .highlight-card {
+            animation: highlight-pulse 2s ease;
           }
         `
       }} />

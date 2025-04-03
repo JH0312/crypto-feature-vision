@@ -1,4 +1,3 @@
-
 import { 
   TrendingUp, 
   TrendingDown, 
@@ -11,7 +10,13 @@ import {
   Lock,
   Code,
   CloudOff,
-  Database
+  Database,
+  Globe,
+  Zap,
+  DollarSign,
+  Share2,
+  Activity,
+  Server
 } from "lucide-react";
 
 export interface CryptoData {
@@ -257,7 +262,6 @@ export const cryptoData: CryptoData[] = [
       }
     ]
   },
-  // Additional cryptocurrencies
   {
     id: "binancecoin",
     name: "Binance Coin",
@@ -475,6 +479,402 @@ export const cryptoData: CryptoData[] = [
         status: "normal",
         description: "Known security issues in the blockchain",
         icon: ShieldCheck
+      }
+    ]
+  },
+  {
+    id: "dogecoin",
+    name: "Dogecoin",
+    symbol: "DOGE",
+    price: 0.1234,
+    change24h: 7.65,
+    marketCap: 15678901234,
+    volume24h: 3456789012,
+    malwareRisk: 19,
+    riskFeatures: [
+      {
+        id: "network-anomalies",
+        name: "Network Anomalies",
+        value: 15,
+        status: "normal",
+        description: "Network behavior patterns that deviate from expected behavior",
+        icon: Network
+      },
+      {
+        id: "social-manipulation",
+        name: "Social Manipulation",
+        value: 45,
+        status: "warning",
+        description: "Risk of price manipulation through social media",
+        icon: Share2
+      },
+      {
+        id: "transaction-volume",
+        name: "Transaction Volume",
+        value: 67,
+        status: "normal",
+        description: "Unusual transaction volumes or patterns",
+        icon: BarChart3
+      },
+      {
+        id: "security-vulnerabilities",
+        name: "Security Vulnerabilities",
+        value: 21,
+        status: "warning",
+        description: "Known security issues in the blockchain",
+        icon: ShieldCheck
+      }
+    ]
+  },
+  {
+    id: "tether",
+    name: "Tether",
+    symbol: "USDT",
+    price: 1.00,
+    change24h: 0.01,
+    marketCap: 83456789012,
+    volume24h: 52456789012,
+    malwareRisk: 23,
+    riskFeatures: [
+      {
+        id: "centralization",
+        name: "Centralization Risk",
+        value: 78,
+        status: "critical",
+        description: "Risk associated with centralized control",
+        icon: Database
+      },
+      {
+        id: "backing-risk",
+        name: "Reserve Backing",
+        value: 42,
+        status: "warning",
+        description: "Risk related to asset backing claims",
+        icon: DollarSign
+      },
+      {
+        id: "regulatory-risk",
+        name: "Regulatory Risk",
+        value: 56,
+        status: "warning",
+        description: "Risk associated with regulatory actions",
+        icon: AlertTriangle
+      },
+      {
+        id: "blockchain-usage",
+        name: "Blockchain Usage",
+        value: 24,
+        status: "normal",
+        description: "How the stablecoin uses blockchain technology",
+        icon: Server
+      }
+    ]
+  },
+  {
+    id: "litecoin",
+    name: "Litecoin",
+    symbol: "LTC",
+    price: 64.32,
+    change24h: 1.75,
+    marketCap: 4567890123,
+    volume24h: 987654321,
+    malwareRisk: 14,
+    riskFeatures: [
+      {
+        id: "network-anomalies",
+        name: "Network Anomalies",
+        value: 12,
+        status: "normal",
+        description: "Network behavior patterns that deviate from expected behavior",
+        icon: Network
+      },
+      {
+        id: "mining-concentration",
+        name: "Mining Concentration",
+        value: 33,
+        status: "warning",
+        description: "Concentration of mining power",
+        icon: Server
+      },
+      {
+        id: "transaction-volume",
+        name: "Transaction Volume",
+        value: 28,
+        status: "normal",
+        description: "Unusual transaction volumes or patterns",
+        icon: BarChart3
+      },
+      {
+        id: "security-vulnerabilities",
+        name: "Security Vulnerabilities",
+        value: 11,
+        status: "normal",
+        description: "Known security issues in the blockchain",
+        icon: ShieldCheck
+      }
+    ]
+  },
+  {
+    id: "uniswap",
+    name: "Uniswap",
+    symbol: "UNI",
+    price: 7.89,
+    change24h: -2.43,
+    marketCap: 5678901234,
+    volume24h: 1234567890,
+    malwareRisk: 21,
+    riskFeatures: [
+      {
+        id: "smart-contract-risk",
+        name: "Smart Contract Risk",
+        value: 38,
+        status: "warning",
+        description: "Risk associated with smart contract vulnerabilities",
+        icon: AlertTriangle
+      },
+      {
+        id: "liquidity-risk",
+        name: "Liquidity Risk",
+        value: 43,
+        status: "warning",
+        description: "Risk associated with liquidity pools",
+        icon: Activity
+      },
+      {
+        id: "governance-risk",
+        name: "Governance Risk",
+        value: 25,
+        status: "normal",
+        description: "Risk associated with governance decisions",
+        icon: Lock
+      },
+      {
+        id: "interconnection-risk",
+        name: "Protocol Interconnection",
+        value: 51,
+        status: "warning",
+        description: "Risk from connections with other DeFi protocols",
+        icon: Share2
+      }
+    ]
+  },
+  {
+    id: "stellar",
+    name: "Stellar",
+    symbol: "XLM",
+    price: 0.089,
+    change24h: 3.21,
+    marketCap: 2345678901,
+    volume24h: 789012345,
+    malwareRisk: 16,
+    riskFeatures: [
+      {
+        id: "consensus-vulnerability",
+        name: "Consensus Mechanism",
+        value: 22,
+        status: "normal",
+        description: "Vulnerabilities in the consensus mechanism",
+        icon: Globe
+      },
+      {
+        id: "network-anomalies",
+        name: "Network Anomalies",
+        value: 19,
+        status: "normal",
+        description: "Network behavior patterns that deviate from expected behavior",
+        icon: Network
+      },
+      {
+        id: "regulatory-risk",
+        name: "Regulatory Risk",
+        value: 34,
+        status: "warning",
+        description: "Risk associated with regulatory actions",
+        icon: AlertTriangle
+      },
+      {
+        id: "centralization",
+        name: "Centralization Risk",
+        value: 41,
+        status: "warning",
+        description: "Risk associated with centralized control",
+        icon: Database
+      }
+    ]
+  },
+  {
+    id: "monero",
+    name: "Monero",
+    symbol: "XMR",
+    price: 145.67,
+    change24h: 5.43,
+    marketCap: 2678901234,
+    volume24h: 456789012,
+    malwareRisk: 26,
+    riskFeatures: [
+      {
+        id: "regulatory-risk",
+        name: "Regulatory Risk",
+        value: 73,
+        status: "critical",
+        description: "Risk associated with regulatory actions against privacy coins",
+        icon: AlertTriangle
+      },
+      {
+        id: "malicious-usage",
+        name: "Malicious Usage",
+        value: 68,
+        status: "warning",
+        description: "Risk associated with usage in illicit activities",
+        icon: CloudOff
+      },
+      {
+        id: "mining-vulnerability",
+        name: "Mining Vulnerability",
+        value: 29,
+        status: "normal",
+        description: "Vulnerabilities in the mining algorithm",
+        icon: Server
+      },
+      {
+        id: "network-anomalies",
+        name: "Network Anomalies",
+        value: 17,
+        status: "normal",
+        description: "Network behavior patterns that deviate from expected behavior",
+        icon: Network
+      }
+    ]
+  },
+  {
+    id: "algorand",
+    name: "Algorand",
+    symbol: "ALGO",
+    price: 0.187,
+    change24h: 1.23,
+    marketCap: 1456789012,
+    volume24h: 345678901,
+    malwareRisk: 13,
+    riskFeatures: [
+      {
+        id: "consensus-vulnerability",
+        name: "Consensus Mechanism",
+        value: 14,
+        status: "normal",
+        description: "Vulnerabilities in the pure proof-of-stake consensus",
+        icon: Globe
+      },
+      {
+        id: "centralization",
+        name: "Centralization Risk",
+        value: 32,
+        status: "warning",
+        description: "Risk associated with centralized control",
+        icon: Database
+      },
+      {
+        id: "governance-risk",
+        name: "Governance Risk",
+        value: 21,
+        status: "normal",
+        description: "Risk associated with governance decisions",
+        icon: Lock
+      },
+      {
+        id: "security-vulnerabilities",
+        name: "Security Vulnerabilities",
+        value: 16,
+        status: "normal",
+        description: "Known security issues in the blockchain",
+        icon: ShieldCheck
+      }
+    ]
+  },
+  {
+    id: "vechain",
+    name: "VeChain",
+    symbol: "VET",
+    price: 0.025,
+    change24h: 4.56,
+    marketCap: 1789012345,
+    volume24h: 234567890,
+    malwareRisk: 17,
+    riskFeatures: [
+      {
+        id: "network-anomalies",
+        name: "Network Anomalies",
+        value: 23,
+        status: "normal",
+        description: "Network behavior patterns that deviate from expected behavior",
+        icon: Network
+      },
+      {
+        id: "enterprise-adoption",
+        name: "Enterprise Adoption",
+        value: 19,
+        status: "normal",
+        description: "Risk related to enterprise adoption claims",
+        icon: Share2
+      },
+      {
+        id: "consensus-vulnerability",
+        name: "Consensus Mechanism",
+        value: 27,
+        status: "normal",
+        description: "Vulnerabilities in the consensus mechanism",
+        icon: Globe
+      },
+      {
+        id: "centralization",
+        name: "Centralization Risk",
+        value: 44,
+        status: "warning",
+        description: "Risk associated with centralized control",
+        icon: Database
+      }
+    ]
+  },
+  {
+    id: "filecoin",
+    name: "Filecoin",
+    symbol: "FIL",
+    price: 4.58,
+    change24h: -1.25,
+    marketCap: 2123456789,
+    volume24h: 456123789,
+    malwareRisk: 18,
+    riskFeatures: [
+      {
+        id: "storage-risk",
+        name: "Storage Reliability",
+        value: 29,
+        status: "normal",
+        description: "Risk related to decentralized storage reliability",
+        icon: Server
+      },
+      {
+        id: "mining-concentration",
+        name: "Mining Concentration",
+        value: 47,
+        status: "warning",
+        description: "Concentration of storage mining power",
+        icon: Database
+      },
+      {
+        id: "network-anomalies",
+        name: "Network Anomalies",
+        value: 22,
+        status: "normal",
+        description: "Network behavior patterns that deviate from expected behavior",
+        icon: Network
+      },
+      {
+        id: "token-economics",
+        name: "Token Economics",
+        value: 36,
+        status: "warning",
+        description: "Risks related to token economic model",
+        icon: DollarSign
       }
     ]
   }
