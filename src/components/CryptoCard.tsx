@@ -22,11 +22,11 @@ const formatNumber = (num: number): string => {
 
 const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick, highlight = false }) => {
   const isPositive = crypto.change24h >= 0;
-  const riskColor = crypto.malwareRisk > 20 
-    ? "bg-crypto-red" 
-    : crypto.malwareRisk > 15 
+  const metricColor = crypto.metricScore > 75 
+    ? "bg-crypto-green" 
+    : crypto.metricScore > 50 
       ? "bg-yellow-500" 
-      : "bg-crypto-green";
+      : "bg-crypto-red";
       
   const lastPriceRef = useRef<number>(crypto.price);
   const priceRef = useRef<HTMLSpanElement>(null);
@@ -90,7 +90,7 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick, highlight = fa
           </div>
         </div>
         <div className="flex items-center">
-          {crypto.malwareRisk > 20 ? (
+          {crypto.metricScore < 50 ? (
             <AlertTriangle className="h-5 w-5 text-crypto-red" />
           ) : (
             <ShieldCheck className="h-5 w-5 text-crypto-green" />
@@ -122,11 +122,11 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick, highlight = fa
             <span className="font-medium text-gray-300">${formatNumber(crypto.volume24h)}</span>
           </div>
           <div className="flex justify-between text-xs text-gray-400">
-            <span>Risk Score</span>
-            <span className="font-medium text-gray-300">{crypto.malwareRisk}%</span>
+            <span>Metric Score</span>
+            <span className="font-medium text-gray-300">{crypto.metricScore}%</span>
           </div>
           <div className="mt-2">
-            <Progress value={crypto.malwareRisk} className="h-1.5" indicatorClassName={riskColor} />
+            <Progress value={crypto.metricScore} className="h-1.5" indicatorClassName={metricColor} />
           </div>
         </div>
       </CardContent>

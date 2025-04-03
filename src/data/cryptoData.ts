@@ -27,11 +27,11 @@ export interface CryptoData {
   change24h: number;
   marketCap: number;
   volume24h: number;
-  malwareRisk: number;
-  riskFeatures: Feature[];
+  metricScore: number;
+  metrics: Metric[];
 }
 
-export interface Feature {
+export interface Metric {
   id: string;
   name: string;
   value: number; 
@@ -50,14 +50,14 @@ export const cryptoData: CryptoData[] = [
     change24h: 2.35,
     marketCap: 823456789012,
     volume24h: 28976543210,
-    malwareRisk: 12,
-    riskFeatures: [
+    metricScore: 88,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
-        value: 12,
+        name: "Network Performance",
+        value: 88,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
@@ -65,23 +65,23 @@ export const cryptoData: CryptoData[] = [
         name: "Transaction Volume",
         value: 85,
         status: "normal",
-        description: "Unusual transaction volumes or patterns",
+        description: "Transaction volume metrics and patterns",
         icon: BarChart3
       },
       {
-        id: "price-manipulation",
-        name: "Price Manipulation",
-        value: 8,
+        id: "price-stability",
+        name: "Price Stability",
+        value: 92,
         status: "normal",
-        description: "Signs of artificial price manipulation",
+        description: "Analysis of price stability over time",
         icon: TrendingUp
       },
       {
-        id: "security-vulnerabilities",
-        name: "Security Vulnerabilities",
-        value: 14,
+        id: "security-metrics",
+        name: "Security Metrics",
+        value: 86,
         status: "normal",
-        description: "Known security issues in the blockchain",
+        description: "Blockchain security and integrity metrics",
         icon: ShieldCheck
       }
     ]
@@ -94,38 +94,38 @@ export const cryptoData: CryptoData[] = [
     change24h: -1.23,
     marketCap: 278965432100,
     volume24h: 12354678900,
-    malwareRisk: 18,
-    riskFeatures: [
+    metricScore: 82,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
-        value: 19,
+        name: "Network Performance",
+        value: 81,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
-        id: "smart-contract-risk",
-        name: "Smart Contract Risk",
-        value: 31,
+        id: "smart-contract-performance",
+        name: "Smart Contract Performance",
+        value: 69,
         status: "warning",
-        description: "Risk associated with smart contract vulnerabilities",
+        description: "Performance metrics for smart contract operations",
         icon: AlertTriangle
       },
       {
-        id: "price-manipulation",
-        name: "Price Manipulation",
-        value: 9,
+        id: "price-stability",
+        name: "Price Stability",
+        value: 91,
         status: "normal",
-        description: "Signs of artificial price manipulation",
+        description: "Analysis of price stability over time",
         icon: TrendingUp
       },
       {
-        id: "security-vulnerabilities",
-        name: "Security Vulnerabilities",
-        value: 18,
+        id: "security-metrics",
+        name: "Security Metrics",
+        value: 82,
         status: "normal",
-        description: "Known security issues in the blockchain",
+        description: "Blockchain security and integrity metrics",
         icon: ShieldCheck
       }
     ]
@@ -138,22 +138,22 @@ export const cryptoData: CryptoData[] = [
     change24h: 5.68,
     marketCap: 19876543210,
     volume24h: 1234567890,
-    malwareRisk: 15,
-    riskFeatures: [
+    metricScore: 85,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
-        value: 9,
+        name: "Network Performance",
+        value: 91,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
-        id: "smart-contract-risk",
-        name: "Smart Contract Risk",
-        value: 22,
+        id: "smart-contract-performance",
+        name: "Smart Contract Performance",
+        value: 78,
         status: "warning",
-        description: "Risk associated with smart contract vulnerabilities",
+        description: "Performance metrics for smart contract operations",
         icon: AlertTriangle
       },
       {
@@ -161,13 +161,13 @@ export const cryptoData: CryptoData[] = [
         name: "Transaction Volume",
         value: 43,
         status: "normal",
-        description: "Unusual transaction volumes or patterns",
+        description: "Transaction volume metrics and patterns",
         icon: BarChart3
       },
       {
         id: "node-distribution",
         name: "Node Distribution",
-        value: 12,
+        value: 88,
         status: "normal",
         description: "The distribution pattern of nodes in the network",
         icon: PieChart
@@ -182,22 +182,22 @@ export const cryptoData: CryptoData[] = [
     change24h: 8.91,
     marketCap: 48765432100,
     volume24h: 3456789012,
-    malwareRisk: 22,
-    riskFeatures: [
+    metricScore: 87,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 32,
         status: "warning",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
-        id: "smart-contract-risk",
-        name: "Smart Contract Risk",
+        id: "smart-contract-performance",
+        name: "Smart Contract Performance",
         value: 28,
         status: "warning",
-        description: "Risk associated with smart contract vulnerabilities",
+        description: "Performance metrics for smart contract operations",
         icon: AlertTriangle
       },
       {
@@ -205,7 +205,7 @@ export const cryptoData: CryptoData[] = [
         name: "Transaction Volume",
         value: 78,
         status: "normal",
-        description: "Unusual transaction volumes or patterns",
+        description: "Transaction volume metrics and patterns",
         icon: BarChart3
       },
       {
@@ -226,14 +226,14 @@ export const cryptoData: CryptoData[] = [
     change24h: -3.24,
     marketCap: 32145678900,
     volume24h: 2134567890,
-    malwareRisk: 27,
-    riskFeatures: [
+    metricScore: 84,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 38,
         status: "warning",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
@@ -241,24 +241,24 @@ export const cryptoData: CryptoData[] = [
         name: "Transaction Volume",
         value: 92,
         status: "critical",
-        description: "Unusual transaction volumes or patterns",
+        description: "Transaction volume metrics and patterns",
         icon: BarChart3
       },
       {
-        id: "price-manipulation",
-        name: "Price Manipulation",
-        value: 18,
+        id: "price-stability",
+        name: "Price Stability",
+        value: 90,
         status: "normal",
-        description: "Signs of artificial price manipulation",
+        description: "Analysis of price stability over time",
         icon: TrendingUp
       },
       {
-        id: "regulatory-risk",
-        name: "Regulatory Risk",
-        value: 63,
-        status: "warning",
-        description: "Risk associated with regulatory actions",
-        icon: AlertTriangle
+        id: "security-metrics",
+        name: "Security Metrics",
+        value: 88,
+        status: "normal",
+        description: "Blockchain security and integrity metrics",
+        icon: ShieldCheck
       }
     ]
   },
@@ -270,8 +270,8 @@ export const cryptoData: CryptoData[] = [
     change24h: 1.45,
     marketCap: 58923456789,
     volume24h: 2457834901,
-    malwareRisk: 17,
-    riskFeatures: [
+    metricScore: 86,
+    metrics: [
       {
         id: "centralization",
         name: "Centralization Risk",
@@ -285,7 +285,7 @@ export const cryptoData: CryptoData[] = [
         name: "Transaction Volume",
         value: 76,
         status: "normal",
-        description: "Unusual transaction volumes or patterns",
+        description: "Transaction volume metrics and patterns",
         icon: BarChart3
       },
       {
@@ -297,11 +297,11 @@ export const cryptoData: CryptoData[] = [
         icon: AlertTriangle
       },
       {
-        id: "security-vulnerabilities",
-        name: "Security Vulnerabilities",
+        id: "security-metrics",
+        name: "Security Metrics",
         value: 22,
         status: "normal",
-        description: "Known security issues in the blockchain",
+        description: "Blockchain security and integrity metrics",
         icon: ShieldCheck
       }
     ]
@@ -314,14 +314,14 @@ export const cryptoData: CryptoData[] = [
     change24h: 6.72,
     marketCap: 9654321098,
     volume24h: 765432109,
-    malwareRisk: 14,
-    riskFeatures: [
+    metricScore: 83,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 17,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
@@ -341,11 +341,11 @@ export const cryptoData: CryptoData[] = [
         icon: Lock
       },
       {
-        id: "security-vulnerabilities",
-        name: "Security Vulnerabilities",
+        id: "security-metrics",
+        name: "Security Metrics",
         value: 15,
         status: "normal",
-        description: "Known security issues in the blockchain",
+        description: "Blockchain security and integrity metrics",
         icon: ShieldCheck
       }
     ]
@@ -358,14 +358,14 @@ export const cryptoData: CryptoData[] = [
     change24h: -2.34,
     marketCap: 12345678901,
     volume24h: 987654321,
-    malwareRisk: 19,
-    riskFeatures: [
+    metricScore: 85,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 23,
         status: "warning",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
@@ -381,15 +381,15 @@ export const cryptoData: CryptoData[] = [
         name: "Transaction Volume",
         value: 67,
         status: "normal",
-        description: "Unusual transaction volumes or patterns",
+        description: "Transaction volume metrics and patterns",
         icon: BarChart3
       },
       {
-        id: "security-vulnerabilities",
-        name: "Security Vulnerabilities",
+        id: "security-metrics",
+        name: "Security Metrics",
         value: 31,
         status: "warning",
-        description: "Known security issues in the blockchain",
+        description: "Blockchain security and integrity metrics",
         icon: ShieldCheck
       }
     ]
@@ -402,8 +402,8 @@ export const cryptoData: CryptoData[] = [
     change24h: 4.56,
     marketCap: 7659432109,
     volume24h: 543219876,
-    malwareRisk: 16,
-    riskFeatures: [
+    metricScore: 84,
+    metrics: [
       {
         id: "oracle-manipulation",
         name: "Oracle Manipulation",
@@ -446,14 +446,14 @@ export const cryptoData: CryptoData[] = [
     change24h: 3.21,
     marketCap: 8765432109,
     volume24h: 654321098,
-    malwareRisk: 15,
-    riskFeatures: [
+    metricScore: 86,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 18,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
@@ -473,11 +473,11 @@ export const cryptoData: CryptoData[] = [
         icon: Lock
       },
       {
-        id: "security-vulnerabilities",
-        name: "Security Vulnerabilities",
+        id: "security-metrics",
+        name: "Security Metrics",
         value: 20,
         status: "normal",
-        description: "Known security issues in the blockchain",
+        description: "Blockchain security and integrity metrics",
         icon: ShieldCheck
       }
     ]
@@ -490,14 +490,14 @@ export const cryptoData: CryptoData[] = [
     change24h: 7.65,
     marketCap: 15678901234,
     volume24h: 3456789012,
-    malwareRisk: 19,
-    riskFeatures: [
+    metricScore: 87,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 15,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
@@ -513,15 +513,15 @@ export const cryptoData: CryptoData[] = [
         name: "Transaction Volume",
         value: 67,
         status: "normal",
-        description: "Unusual transaction volumes or patterns",
+        description: "Transaction volume metrics and patterns",
         icon: BarChart3
       },
       {
-        id: "security-vulnerabilities",
-        name: "Security Vulnerabilities",
+        id: "security-metrics",
+        name: "Security Metrics",
         value: 21,
         status: "warning",
-        description: "Known security issues in the blockchain",
+        description: "Blockchain security and integrity metrics",
         icon: ShieldCheck
       }
     ]
@@ -534,8 +534,8 @@ export const cryptoData: CryptoData[] = [
     change24h: 0.01,
     marketCap: 83456789012,
     volume24h: 52456789012,
-    malwareRisk: 23,
-    riskFeatures: [
+    metricScore: 83,
+    metrics: [
       {
         id: "centralization",
         name: "Centralization Risk",
@@ -578,14 +578,14 @@ export const cryptoData: CryptoData[] = [
     change24h: 1.75,
     marketCap: 4567890123,
     volume24h: 987654321,
-    malwareRisk: 14,
-    riskFeatures: [
+    metricScore: 85,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 12,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
@@ -601,15 +601,15 @@ export const cryptoData: CryptoData[] = [
         name: "Transaction Volume",
         value: 28,
         status: "normal",
-        description: "Unusual transaction volumes or patterns",
+        description: "Transaction volume metrics and patterns",
         icon: BarChart3
       },
       {
-        id: "security-vulnerabilities",
-        name: "Security Vulnerabilities",
+        id: "security-metrics",
+        name: "Security Metrics",
         value: 11,
         status: "normal",
-        description: "Known security issues in the blockchain",
+        description: "Blockchain security and integrity metrics",
         icon: ShieldCheck
       }
     ]
@@ -622,14 +622,14 @@ export const cryptoData: CryptoData[] = [
     change24h: -2.43,
     marketCap: 5678901234,
     volume24h: 1234567890,
-    malwareRisk: 21,
-    riskFeatures: [
+    metricScore: 84,
+    metrics: [
       {
-        id: "smart-contract-risk",
-        name: "Smart Contract Risk",
+        id: "smart-contract-performance",
+        name: "Smart Contract Performance",
         value: 38,
         status: "warning",
-        description: "Risk associated with smart contract vulnerabilities",
+        description: "Performance metrics for smart contract operations",
         icon: AlertTriangle
       },
       {
@@ -666,8 +666,8 @@ export const cryptoData: CryptoData[] = [
     change24h: 3.21,
     marketCap: 2345678901,
     volume24h: 789012345,
-    malwareRisk: 16,
-    riskFeatures: [
+    metricScore: 82,
+    metrics: [
       {
         id: "consensus-vulnerability",
         name: "Consensus Mechanism",
@@ -678,10 +678,10 @@ export const cryptoData: CryptoData[] = [
       },
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 19,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
@@ -710,8 +710,8 @@ export const cryptoData: CryptoData[] = [
     change24h: 5.43,
     marketCap: 2678901234,
     volume24h: 456789012,
-    malwareRisk: 26,
-    riskFeatures: [
+    metricScore: 86,
+    metrics: [
       {
         id: "regulatory-risk",
         name: "Regulatory Risk",
@@ -738,10 +738,10 @@ export const cryptoData: CryptoData[] = [
       },
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 17,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       }
     ]
@@ -754,8 +754,8 @@ export const cryptoData: CryptoData[] = [
     change24h: 1.23,
     marketCap: 1456789012,
     volume24h: 345678901,
-    malwareRisk: 13,
-    riskFeatures: [
+    metricScore: 83,
+    metrics: [
       {
         id: "consensus-vulnerability",
         name: "Consensus Mechanism",
@@ -781,11 +781,11 @@ export const cryptoData: CryptoData[] = [
         icon: Lock
       },
       {
-        id: "security-vulnerabilities",
-        name: "Security Vulnerabilities",
+        id: "security-metrics",
+        name: "Security Metrics",
         value: 16,
         status: "normal",
-        description: "Known security issues in the blockchain",
+        description: "Blockchain security and integrity metrics",
         icon: ShieldCheck
       }
     ]
@@ -798,14 +798,14 @@ export const cryptoData: CryptoData[] = [
     change24h: 4.56,
     marketCap: 1789012345,
     volume24h: 234567890,
-    malwareRisk: 17,
-    riskFeatures: [
+    metricScore: 84,
+    metrics: [
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 23,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {
@@ -842,8 +842,8 @@ export const cryptoData: CryptoData[] = [
     change24h: -1.25,
     marketCap: 2123456789,
     volume24h: 456123789,
-    malwareRisk: 18,
-    riskFeatures: [
+    metricScore: 85,
+    metrics: [
       {
         id: "storage-risk",
         name: "Storage Reliability",
@@ -862,10 +862,10 @@ export const cryptoData: CryptoData[] = [
       },
       {
         id: "network-anomalies",
-        name: "Network Anomalies",
+        name: "Network Performance",
         value: 22,
         status: "normal",
-        description: "Network behavior patterns that deviate from expected behavior",
+        description: "Network behavior patterns and operational metrics",
         icon: Network
       },
       {

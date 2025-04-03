@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useMemo, useRef } from "react";
 import { cryptoData, CryptoData } from "@/data/cryptoData";
 import { useToast } from "@/components/ui/use-toast";
@@ -9,7 +10,7 @@ export const useCryptoData = () => {
   const [selectedCrypto, setSelectedCrypto] = useState<CryptoData | null>(null);
   const [filterValue, setFilterValue] = useState<string>("");
   const [sortBy, setSortBy] = useState<{
-    field: "price" | "change24h" | "malwareRisk" | "marketCap",
+    field: "price" | "change24h" | "metricScore" | "marketCap",
     direction: "asc" | "desc"
   }>({ field: "marketCap", direction: "desc" });
   
@@ -170,7 +171,7 @@ export const useCryptoData = () => {
     setFilterValue(value);
   };
   
-  const updateSort = (field: "price" | "change24h" | "malwareRisk" | "marketCap", direction: "asc" | "desc") => {
+  const updateSort = (field: "price" | "change24h" | "metricScore" | "marketCap", direction: "asc" | "desc") => {
     setSortBy({ field, direction });
   };
 

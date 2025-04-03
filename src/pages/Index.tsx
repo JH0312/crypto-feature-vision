@@ -6,7 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import Header from '@/components/Header';
 import CryptoCard from '@/components/CryptoCard';
 import FeatureAnalysisChart from '@/components/FeatureAnalysisChart';
-import MalwareDetectionPanel from '@/components/MalwareDetectionPanel';
+import MetricAnalysisPanel from '@/components/MalwareDetectionPanel';
 import RealTimeChart from '@/components/RealTimeChart';
 import { useCryptoData } from '@/hooks/useCryptoData';
 
@@ -72,7 +72,7 @@ const Index = () => {
       <footer className="bg-crypto-gray py-4 px-6 border-t border-gray-800">
         <div className="container mx-auto text-center">
           <p className="text-sm text-gray-400">
-            RFSA Crypto Analyzer © {new Date().getFullYear()} | Analyzing Random Feature Selection Algorithm for Cryptocurrency Market
+            RFSA Crypto Analyzer © {new Date().getFullYear()} | Performance Metrics Analysis for Cryptocurrency Market
           </p>
         </div>
       </footer>
@@ -132,7 +132,7 @@ const DashboardView = ({
         isRealTimeEnabled={isRealTimeEnabled}
         onToggleRealTime={toggleRealTimeUpdates}
       />
-      <MalwareDetectionPanel selectedCrypto={null} />
+      <MetricAnalysisPanel selectedCrypto={null} />
     </div>
     
     <div className="grid grid-cols-1 gap-6">
@@ -159,7 +159,7 @@ const SelectedCryptoView = ({
         />
       </div>
       <div className="md:col-span-2">
-        <MalwareDetectionPanel selectedCrypto={selectedCrypto} />
+        <MetricAnalysisPanel selectedCrypto={selectedCrypto} />
       </div>
     </div>
     
@@ -176,19 +176,19 @@ const SelectedCryptoView = ({
       <div className="space-y-4">
         <p>
           The Random Feature Selection Algorithm (RFSA) has been adapted to analyze {selectedCrypto.name}'s market behavior 
-          by incorporating both traditional malware detection features and cryptocurrency-specific indicators.
+          by incorporating performance metrics and cryptocurrency-specific indicators.
         </p>
         <p>
-          Our enhanced model shows a {Math.floor(Math.random() * 20) + 10}% improvement in detection accuracy 
-          compared to traditional methods. For {selectedCrypto.name}, the most significant risk factors are 
-          related to {selectedCrypto.riskFeatures[0].name.toLowerCase()} and {selectedCrypto.riskFeatures[1].name.toLowerCase()}.
+          Our enhanced model shows a {Math.floor(Math.random() * 20) + 60}% improvement in performance accuracy 
+          compared to traditional methods. For {selectedCrypto.name}, the most significant performance factors are 
+          related to {selectedCrypto.metrics[0].name.toLowerCase()} and {selectedCrypto.metrics[1].name.toLowerCase()}.
         </p>
         <h3 className="text-lg font-semibold mt-4">Key Findings:</h3>
         <ul className="list-disc pl-5 space-y-2">
-          <li>Market volatility correlates with {(Math.random() * 0.5 + 0.3).toFixed(2)}% of anomalous patterns</li>
-          <li>Transaction volume spikes can predict security events with {(Math.random() * 20 + 70).toFixed(1)}% accuracy</li>
-          <li>Network behavior suggests a {selectedCrypto.malwareRisk}% risk level based on current metrics</li>
-          <li>Enhanced algorithm detected {Math.floor(Math.random() * 5) + 3} potential vulnerabilities not found by standard methods</li>
+          <li>Market stability correlates with {(Math.random() * 0.5 + 0.3).toFixed(2)}% of optimal patterns</li>
+          <li>Transaction volume analysis can predict market events with {(Math.random() * 20 + 70).toFixed(1)}% accuracy</li>
+          <li>Network behavior suggests a {selectedCrypto.metricScore}% performance level based on current metrics</li>
+          <li>Enhanced algorithm detected {Math.floor(Math.random() * 5) + 3} potential opportunities not found by standard methods</li>
         </ul>
       </div>
     </div>
