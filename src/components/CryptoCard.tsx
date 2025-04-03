@@ -28,6 +28,7 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick }) => {
       
   const lastPriceRef = useRef<number>(crypto.price);
   const priceRef = useRef<HTMLSpanElement>(null);
+  const cardRef = useRef<HTMLDivElement>(null);
   
   // Flash animation when price changes
   useEffect(() => {
@@ -50,6 +51,7 @@ const CryptoCard: React.FC<CryptoCardProps> = ({ crypto, onClick }) => {
 
   return (
     <Card 
+      ref={cardRef}
       className="crypto-card border border-gray-800 overflow-hidden hover:border-gray-600 cursor-pointer transition-all duration-300 hover:shadow-md"
       onClick={() => onClick(crypto)}
     >

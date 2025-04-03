@@ -36,12 +36,16 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
   const [priceHistory, setPriceHistory] = useState<PricePoint[]>([]);
   const [priceChange, setPriceChange] = useState<number>(0);
   const lastPriceRef = useRef<number | null>(null);
-  const cryptoNameRef = useRef<string | null>(null);
+  const cryptoIdRef = useRef<string | null>(null);
   
   // Reset chart data when crypto changes
   useEffect(() => {
-    if (selectedCrypto && (cryptoNameRef.current !== selectedCrypto.name || priceHistory.length === 0)) {
-      cryptoNameRef.current = selectedCrypto.name;
+    if (!selectedCrypto) return;
+    
+    // Only reset if the crypto has changed (check by ID instead of name)
+    if (cryptoIdRef.current !== selectedCrypto.id || priceHistory.length === 0) {
+      console.log(`Initializing chart for ${selectedCrypto.name} (ID: ${selectedCrypto.id})`);
+      cryptoIdRef.current = selectedCrypto.id;
       
       // Initialize with current price
       const initialData: PricePoint[] = Array(MAX_DATA_POINTS)
@@ -58,13 +62,15 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
       lastPriceRef.current = selectedCrypto.price;
       setPriceChange(0);
     }
-  }, [selectedCrypto]);
+  }, [selectedCrypto, selectedCrypto?.id]);
   
   // Update chart with new price data when real-time is enabled
   useEffect(() => {
     if (!selectedCrypto || !isRealTimeEnabled) {
       return;
     }
+    
+    console.log(`Starting real-time updates for ${selectedCrypto.name}`);
     
     const updateInterval = setInterval(() => {
       const time = new Date();
@@ -99,12 +105,17 @@ const RealTimeChart: React.FC<RealTimeChartProps> = ({
       lastPriceRef.current = selectedCrypto.price;
     }, 1000);
     
-    return () => clearInterval(updateInterval);
-  }, [selectedCrypto, isRealTimeEnabled]);
+    return () => {
+      console.log(`Stopping real-time updates for ${selectedCrypto.name}`);
+      clearInterval(updateInterval);
+    };
+  }, [selectedCrypto, isRealTimeEnabled, selectedCrypto?.id]);
   
   // Update immediately when the selected crypto price changes
   useEffect(() => {
     if (selectedCrypto && lastPriceRef.current !== null && selectedCrypto.price !== lastPriceRef.current) {
+      console.log(`Price update for ${selectedCrypto.name}: ${lastPriceRef.current} -> ${selectedCrypto.price}`);
+      
       const time = new Date();
       const timeString = time.toLocaleTimeString([], { 
         hour: '2-digit', 

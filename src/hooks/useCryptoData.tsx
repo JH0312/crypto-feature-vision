@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useMemo, useRef } from "react";
 import { cryptoData, CryptoData } from "@/data/cryptoData";
 import { useToast } from "@/components/ui/use-toast";
@@ -17,6 +16,7 @@ export const useCryptoData = () => {
   // Add real-time updates support
   const [isRealTimeEnabled, setIsRealTimeEnabled] = useState<boolean>(false);
   const updateIntervalRef = useRef<number | null>(null);
+  const selectedCryptoIdRef = useRef<string | null>(null);
   
   const { toast } = useToast();
 
@@ -25,6 +25,11 @@ export const useCryptoData = () => {
     const changePercent = (Math.random() * 2 - 1) * 0.5; // Random change between -0.5% and +0.5%
     return currentPrice * (1 + changePercent / 100);
   };
+
+  // Keep selectedCryptoIdRef in sync with selectedCrypto
+  useEffect(() => {
+    selectedCryptoIdRef.current = selectedCrypto?.id || null;
+  }, [selectedCrypto]);
 
   // Function to update crypto data with new prices
   const updateCryptoPrices = () => {
@@ -41,8 +46,9 @@ export const useCryptoData = () => {
           change24h: newChange24h
         };
         
-        // Also update in selected crypto if it's the current one
-        if (selectedCrypto && selectedCrypto.id === crypto.id) {
+        // Also update selected crypto if it's the current one
+        if (selectedCryptoIdRef.current === crypto.id) {
+          console.log(`Updating selected crypto (${crypto.name}) price: ${crypto.price.toFixed(2)} -> ${newPrice.toFixed(2)}`);
           setSelectedCrypto(updatedCrypto);
         }
         
@@ -149,11 +155,15 @@ export const useCryptoData = () => {
   }, [data, filterValue, sortBy]);
 
   const selectCrypto = (crypto: CryptoData) => {
+    console.log(`Selecting crypto: ${crypto.name} (ID: ${crypto.id})`);
     setSelectedCrypto(crypto);
+    selectedCryptoIdRef.current = crypto.id;
   };
 
   const clearSelectedCrypto = () => {
+    console.log("Clearing selected crypto");
     setSelectedCrypto(null);
+    selectedCryptoIdRef.current = null;
   };
   
   const updateFilter = (value: string) => {
