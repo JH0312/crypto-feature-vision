@@ -6,7 +6,7 @@ import { ArrowLeft } from 'lucide-react';
 import Header from '@/components/Header';
 import CryptoCard from '@/components/CryptoCard';
 import FeatureAnalysisChart from '@/components/FeatureAnalysisChart';
-import MetricAnalysisPanel from '@/components/MalwareDetectionPanel';
+import MetricAnalysisPanel from '@/components/MetricAnalysisPanel';
 import RealTimeChart from '@/components/RealTimeChart';
 import { useCryptoData } from '@/hooks/useCryptoData';
 
