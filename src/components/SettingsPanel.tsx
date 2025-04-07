@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Sheet, 
   SheetContent, 
@@ -16,7 +16,8 @@ import {
   Sun, 
   Lock, 
   User as UserIcon, 
-  LogOut 
+  LogOut,
+  Check
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -24,13 +25,82 @@ import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import { Separator } from '@/components/ui/separator';
 import { useAuth } from '@/hooks/useAuth';
+import { useToast } from '@/hooks/use-toast';
+import { useCryptoData } from '@/hooks/useCryptoData';
 
 const SettingsPanel = () => {
   const { user, logout } = useAuth();
+  const { toast } = useToast();
   const [priceAlerts, setPriceAlerts] = useState(true);
   const [securityAlerts, setSecurityAlerts] = useState(true);
   const [newsletterUpdates, setNewsletterUpdates] = useState(false);
   const [riskThreshold, setRiskThreshold] = useState([30]);
+  const [theme, setTheme] = useState('dark');
+  const { updateFilter, updateSort } = useCryptoData();
+
+  // Handle theme change
+  const handleThemeChange = (newTheme: string) => {
+    setTheme(newTheme);
+    toast({
+      description: `${newTheme.charAt(0).toUpperCase() + newTheme.slice(1)} theme applied`,
+    });
+    // In a real app, would apply theme change to the app
+  };
+
+  // Handle notifications toggle
+  const handlePriceAlertsChange = (checked: boolean) => {
+    setPriceAlerts(checked);
+    toast({
+      description: `Price alerts ${checked ? 'enabled' : 'disabled'}`,
+    });
+  };
+
+  const handleSecurityAlertsChange = (checked: boolean) => {
+    setSecurityAlerts(checked);
+    toast({
+      description: `Security alerts ${checked ? 'enabled' : 'disabled'}`,
+    });
+  };
+
+  const handleNewsletterChange = (checked: boolean) => {
+    setNewsletterUpdates(checked);
+    toast({
+      description: `Newsletter updates ${checked ? 'subscribed' : 'unsubscribed'}`,
+    });
+  };
+
+  // Handle risk threshold change
+  const handleRiskThresholdChange = (values: number[]) => {
+    setRiskThreshold(values);
+  };
+
+  // Handle save preferences
+  const handleSavePreferences = () => {
+    toast({
+      title: "Settings Saved",
+      description: "Your preferences have been updated successfully."
+    });
+    
+    // Apply sorting based on risk threshold - this is an example of how settings can affect the app
+    if (riskThreshold[0] < 30) {
+      // More conservative - prioritize stability
+      updateSort("metricScore", "desc");
+    } else if (riskThreshold[0] > 70) {
+      // More aggressive - prioritize high change potential
+      updateSort("change24h", "desc");
+    } else {
+      // Balanced approach - market cap is a good middle ground
+      updateSort("marketCap", "desc");
+    }
+  };
+
+  // Handle logout with confirmation
+  const handleLogout = () => {
+    logout();
+    toast({
+      description: "You have been logged out successfully",
+    });
+  };
 
   return (
     <Sheet>
@@ -63,7 +133,7 @@ const SettingsPanel = () => {
                 variant="outline" 
                 size="sm" 
                 className="w-full justify-start"
-                onClick={logout}
+                onClick={handleLogout}
               >
                 <LogOut className="h-4 w-4 mr-2" />
                 Sign out
@@ -95,7 +165,7 @@ const SettingsPanel = () => {
                 <Switch 
                   id="price-alerts"
                   checked={priceAlerts}
-                  onCheckedChange={setPriceAlerts}
+                  onCheckedChange={handlePriceAlertsChange}
                 />
               </div>
               
@@ -109,7 +179,7 @@ const SettingsPanel = () => {
                 <Switch 
                   id="security-alerts"
                   checked={securityAlerts}
-                  onCheckedChange={setSecurityAlerts}
+                  onCheckedChange={handleSecurityAlertsChange}
                 />
               </div>
               
@@ -123,7 +193,7 @@ const SettingsPanel = () => {
                 <Switch 
                   id="newsletter"
                   checked={newsletterUpdates}
-                  onCheckedChange={setNewsletterUpdates}
+                  onCheckedChange={handleNewsletterChange}
                 />
               </div>
             </div>
@@ -140,19 +210,25 @@ const SettingsPanel = () => {
               <div>
                 <div className="mb-2 flex justify-between items-center">
                   <Label htmlFor="risk-threshold">Risk Threshold</Label>
-                  <span className="text-xs font-medium bg-primary/20 text-primary px-2 py-1 rounded">
+                  <span className={`text-xs font-medium px-2 py-1 rounded ${
+                    riskThreshold[0] < 30 ? 'bg-green-500/20 text-green-500' : 
+                    riskThreshold[0] > 70 ? 'bg-red-500/20 text-red-500' : 
+                    'bg-primary/20 text-primary'
+                  }`}>
                     {riskThreshold[0]}%
                   </span>
                 </div>
                 <Slider
                   id="risk-threshold"
-                  defaultValue={riskThreshold}
+                  value={riskThreshold}
                   max={100}
                   step={1}
-                  onValueChange={setRiskThreshold}
+                  onValueChange={handleRiskThresholdChange}
                 />
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Adjust the threshold for risk alerts. Higher values mean fewer alerts.
+                  {riskThreshold[0] < 30 ? 'Conservative: Lower risk, modest returns' : 
+                   riskThreshold[0] > 70 ? 'Aggressive: Higher risk, potential for greater returns' : 
+                   'Balanced: Moderate risk and return potential'}
                 </p>
               </div>
             </div>
@@ -166,18 +242,40 @@ const SettingsPanel = () => {
               Appearance
             </h3>
             <div className="grid grid-cols-3 gap-2">
-              <Button variant="outline" size="sm" className="justify-center px-0 py-4 h-auto flex flex-col gap-1">
-                <Sun className="h-4 w-4" />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={`justify-center px-0 py-4 h-auto flex flex-col gap-1 ${theme === 'light' ? 'border-primary bg-primary/10' : ''}`}
+                onClick={() => handleThemeChange('light')}
+              >
+                <div className="relative">
+                  <Sun className="h-4 w-4" />
+                  {theme === 'light' && <Check className="h-3 w-3 absolute -top-1 -right-1 text-primary" />}
+                </div>
                 <span className="text-xs">Light</span>
               </Button>
-              <Button variant="outline" size="sm" className="justify-center px-0 py-4 h-auto flex flex-col gap-1 border-primary bg-primary/10">
-                <Moon className="h-4 w-4" />
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={`justify-center px-0 py-4 h-auto flex flex-col gap-1 ${theme === 'dark' ? 'border-primary bg-primary/10' : ''}`}
+                onClick={() => handleThemeChange('dark')}
+              >
+                <div className="relative">
+                  <Moon className="h-4 w-4" />
+                  {theme === 'dark' && <Check className="h-3 w-3 absolute -top-1 -right-1 text-primary" />}
+                </div>
                 <span className="text-xs">Dark</span>
               </Button>
-              <Button variant="outline" size="sm" className="justify-center px-0 py-4 h-auto flex flex-col gap-1">
-                <div className="flex">
+              <Button 
+                variant="outline" 
+                size="sm" 
+                className={`justify-center px-0 py-4 h-auto flex flex-col gap-1 ${theme === 'system' ? 'border-primary bg-primary/10' : ''}`}
+                onClick={() => handleThemeChange('system')}
+              >
+                <div className="relative flex">
                   <Sun className="h-4 w-4" />
                   <Moon className="h-4 w-4" />
+                  {theme === 'system' && <Check className="h-3 w-3 absolute -top-1 -right-1 text-primary" />}
                 </div>
                 <span className="text-xs">System</span>
               </Button>
@@ -186,7 +284,11 @@ const SettingsPanel = () => {
         </div>
 
         <SheetFooter>
-          <Button variant="outline" className="w-full">
+          <Button 
+            variant="default" 
+            className="w-full"
+            onClick={handleSavePreferences}
+          >
             Save preferences
           </Button>
         </SheetFooter>
